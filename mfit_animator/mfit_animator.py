@@ -28,7 +28,7 @@ def plot(din, line_params, title, filename):
     fig, ax = plt.subplots(sharey=True)
     ax.set_ylabel("y-axis")
     ax.set_xlabel("x-axis")
-    x = np.arange(0, din["Total Numbers"].iloc[-1], 1e3)
+    x = np.arange(0.5, (din["x"].iloc[-1] + 0.5), 1e-2)
     y = 0
     for i in range(0, len(line_params[0])):
         y += line_params[0][i] * (x ** i)
@@ -39,11 +39,12 @@ def plot(din, line_params, title, filename):
         return line,
         
     fig.suptitle(title)
-    ax.plot(din["x"], din["y"], label="Runtime Data", color="orangered", zorder=1)
+    ax.scatter(din["x"], din["y"], label="Runtime Data", color="orangered", zorder=1, s=5)
     plt.legend()
     ani = animation.FuncAnimation(fig, animate, len(x), fargs=[x, y, poly])
-    plt.show()
-    # ani.save(f"{filename}.mp4", fps=5)
+    plt.xlim(0, x[-1] + 1)
+    plt.close()
+    ani.save(f"{filename}.mp4", fps=30)
     
 def gen_random():
     y = np.random.randint(1, high=25, size=4)
@@ -65,7 +66,7 @@ def startup():
                     type=str)
     p.add_argument("-mode",
                     "--mode",
-                    help="Type of model to fit to data",
+                    help="Type of data used in the fit",
                     default="random",
                     type=str)
 #    p.add_argument("-show",
@@ -98,7 +99,7 @@ def startup():
             norm = fit[1]
         else: 
             fit_status = False
+            plot(data, fit, f"{i}th Order Polyomial Fit", f"fit{i}")
         i += 1
         print("")
-        # plot(data, fit, f"{i}th Order Polyomial Rust Runtime Fit", f"rust-runtime-fit{i}")
     
