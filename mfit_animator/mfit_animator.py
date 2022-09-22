@@ -19,7 +19,7 @@ def polyfit(x_data, y_data, order):
         norm = lsq[1][0]**(0.5)
         return [x, norm]
     except IndexError:
-        print("WARNING: Potential Overfit")
+        # print("WARNING: Potential Overfit")
         mnorm = sum((np.dot(A, x) - b) ** 2) ** (0.5)
         return [x, mnorm]
     
@@ -43,8 +43,9 @@ def plot(din, line_params, title, filename):
     plt.legend()
     ani = animation.FuncAnimation(fig, animate, len(x), fargs=[x, y, poly])
     plt.xlim(0, x[-1] + 1)
-    plt.show()
-    # ani.save(f"{filename}.mp4", fps=30)
+    plt.ylim(0, sorted(din["y"])[-1] + 2)
+    # plt.show()
+    ani.save(f"{filename}.mp4", fps=30)
     
 def gen_random():
     y = np.random.randint(1, high=25, size=4)
@@ -88,20 +89,20 @@ def startup():
     i = 1
     norm = None
     bfit = 0
+    print("")
     while fit_status == True:
-        print(f"{i} order polynomial fit")
         fit = polyfit(data["x"], data["y"], i)
-        c = 0
-        for j in fit[0]:
-            print(f"C{c}: {j}")
-            c += 1
-        print(f"Norm: {fit[1]}")
         if norm is None or norm > fit[1]:
             norm = fit[1]
             bfit = fit
         else:
+            print(f"Best Fit: {i-1} Order")
+            print(f"Norm: {bfit[1]}")
+            c = 0
+            for j in bfit[0]:
+                print(f"C{c}: {j}")
+                c += 1
             fit_status = False
             plot(data, bfit, f"{i-1}th Order Polyomial Fit", f"fit{i-1}")
         i += 1
-        print("")
     
