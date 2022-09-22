@@ -43,8 +43,8 @@ def plot(din, line_params, title, filename):
     plt.legend()
     ani = animation.FuncAnimation(fig, animate, len(x), fargs=[x, y, poly])
     plt.xlim(0, x[-1] + 1)
-    plt.close()
-    ani.save(f"{filename}.mp4", fps=30)
+    plt.show()
+    # ani.save(f"{filename}.mp4", fps=30)
     
 def gen_random():
     y = np.random.randint(1, high=25, size=4)
@@ -87,6 +87,7 @@ def startup():
     fit_status = True
     i = 1
     norm = None
+    bfit = 0
     while fit_status == True:
         print(f"{i} order polynomial fit")
         fit = polyfit(data["x"], data["y"], i)
@@ -97,9 +98,10 @@ def startup():
         print(f"Norm: {fit[1]}")
         if norm is None or norm > fit[1]:
             norm = fit[1]
-        else: 
+            bfit = fit
+        else:
             fit_status = False
-            plot(data, fit, f"{i}th Order Polyomial Fit", f"fit{i}")
+            plot(data, bfit, f"{i-1}th Order Polyomial Fit", f"fit{i-1}")
         i += 1
         print("")
     
