@@ -1,6 +1,3 @@
-# Computational Linear Algebra Ep#11 Line-Fitting
-# By: Nick Space Cowboy
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
