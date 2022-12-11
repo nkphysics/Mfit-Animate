@@ -5,12 +5,16 @@ description = "Creates animations of fitting models to data"
 authors = ["Tsar Bomba Nick <njkuechel@protonmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 numpy = "^1.23.2"
 matplotlib = "^3.5.3"
+pandas = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 black = "^22.8.0"
+
+[tool.poetry.scripts]
+mfit-animator = 'mfit_animator:startup'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
